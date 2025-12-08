@@ -1,13 +1,448 @@
-<html>
+<!doctype html>
+<html lang="de">
 <head>
-    <title>Sample HTML Page</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soul Reapers – Dein deutschsprachiger Multigaming-Clan</title>
+  <meta name="description" content="Soul Reapers – DeSBL-erprobter Clan mit Fokus auf Teamplay, Spaß und kompetitives Gaming." />
+  <style>
+    /* ==========================
+       Base / Reset (mobile-first)
+       ========================== */
+    :root{
+      --bg:#08060b;
+      --surface:#0f1015;
+      --muted:#a6a6b2;
+      --accent-1: #7c4dff; /* violet */
+      --accent-2: #3bb0ff; /* blue */
+      --glass: rgba(255,255,255,0.04);
+      --radius: 12px;
+      --fw-regular: 400;
+      --fw-strong: 600;
+      --max-width: 1200px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,77,255,0.06), transparent),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(59,176,255,0.04), transparent),
+                  var(--bg);
+      color:#e9e9ef;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding-bottom:48px;
+      scroll-behavior:smooth;
+    }
+
+    a{color:inherit; text-decoration:none}
+
+    /* ==========================
+       Layout container
+       ========================== */
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 16px}
+
+    /* ==========================
+       Header / Nav
+       ========================== */
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(10,8,12,0.6), rgba(10,8,12,0.35));backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#0b0710;box-shadow:0 6px 18px rgba(59,176,255,0.06), inset 0 -4px 12px rgba(0,0,0,0.25)
+    }
+    .site-title{font-weight:700;letter-spacing:0.6px}
+
+    nav ul{display:flex;gap:10px;align-items:center;padding:0;margin:0;list-style:none}
+    nav a{padding:8px 10px;border-radius:8px;color:var(--muted);font-size:0.95rem}
+    nav a:hover, nav a:focus{color:#fff;background:rgba(255,255,255,0.02)}
+
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer;border:1px solidtransparent}
+    .btn{border:1px solid transparent}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#08060b;box-shadow:0 8px 30px rgba(124,77,255,0.08)}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .btn:hover{transform:translateY(-2px)}
+
+    /* ==========================
+       Hero
+       ========================== */
+    .hero{padding:48px 0 40px;min-height:70vh;display:grid;align-items:center}
+    .hero-inner{display:flex;flex-direction:column;gap:20px}
+    .hero h1{font-size:1.6rem;margin:0;line-height:1.05}
+    .hero p.lead{color:var(--muted);margin:0;font-size:0.98rem}
+
+    .hero-cta{display:flex;gap:12px;align-items:center}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .stat{background:var(--glass);padding:10px 12px;border-radius:12px;color:var(--muted);font-size:0.92rem;border:1px solid rgba(255,255,255,0.02)}
+
+    /* Hero card visual */
+    .hero-card{margin-top:18px;padding:16px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,2,6,0.7);border:1px solid rgba(255,255,255,0.03)}
+
+    /* ==========================
+       Sections
+       ========================== */
+    section{padding:36px 0}
+    section h2{margin:0 0 12px 0;font-size:1.1rem}
+    .lead-text{color:var(--muted);max-width:70ch}
+
+    /* About list */
+    .about-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .about-item{display:flex;gap:12px;align-items:flex-start}
+    .about-item .dot{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+
+    /* Games grid */
+    .games-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+    .game-card{background:var(--surface);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:12px;align-items:center}
+    .game-icon{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(59,176,255,0.08));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent-1);font-size:1.1rem}
+    .game-meta{display:flex;flex-direction:column}
+    .game-meta small{color:var(--muted)}
+
+    /* Teams & community cards */
+    .card-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* Join form */
+    form{display:grid;gap:8px;margin-top:12px}
+    input[type=text], input[type=email], textarea, select{
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;color:inherit
+    }
+    input:focus, textarea:focus{outline:2px solid rgba(124,77,255,0.18)}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,0.03);padding:18px 0;margin-top:28px;color:var(--muted)}
+    .footer-links{display:flex;gap:12px;align-items:center}
+
+    /* ==========================
+       Responsive breakpoints
+       Tablet and Desktop
+       ========================== */
+    @media(min-width:720px){
+      .hero{min-height:62vh}
+      .hero h1{font-size:2.4rem}
+      .hero p.lead{font-size:1.06rem}
+      nav a{font-size:0.98rem}
+    }
+
+    @media(min-width:900px){
+      .hero-inner{flex-direction:row;justify-content:space-between;align-items:center}
+      .hero-card{max-width:48%}
+      .games-grid{grid-template-columns:repeat(2,1fr)}
+      .card-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media(min-width:1100px){
+      .games-grid{grid-template-columns:repeat(3,1fr)}
+      .card-grid{grid-template-columns:repeat(3,1fr)}
+    }
+
+    /* Decorative small helpers */
+    .muted{color:var(--muted)}
+    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+  </style>
 </head>
 <body>
-    <h1>Welcome to the Sample HTML Page</h1>
-    <p>This is a simple HTML document.</p>
-    <a href="https://www.example.com">Visit Example.com</a>
-    <button>Jetzt kaufen du holkopf!</button>
-    <p>copyright usw.</p>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <a href="#home" class="logo" aria-hidden="true">SR</a>
+        <div>
+          <div class="site-title">Soul Reapers</div>
+          <div class="muted" style="font-size:0.8rem">Dein deutschsprachiger Multigaming-Clan</div>
+        </div>
+      </div>
+      <nav aria-label="Hauptnavigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">Über uns</a></li>
+          <li><a href="#games">Games</a></li>
+          <li><a href="#teams">Teams &amp; Ligen</a></li>
+          <li><a href="#community">Community</a></li>
+          <li><a href="#join">Join / Kontakt</a></li>
+          <li><a class="btn btn-primary" href="#community" role="button">Discord beitreten</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="home" class="hero" aria-labelledby="hero-title">
+      <div class="container hero-inner">
+        <div>
+          <h1 id="hero-title">Soul Reapers – Dein deutschsprachiger Multigaming-Clan</h1>
+          <p class="lead">DeSBL-erprobter Clan mit Fokus auf Teamplay, Spaß und kompetitives Gaming.</p>
+
+          <div class="hero-cta" style="margin-top:14px">
+            <a class="btn btn-primary" href="https://discord.gg/pcqA6JaeWK" target="_blank" rel="noopener">Discord beitreten</a>
+            <a class="btn btn-outline" href="https://gamertransfer.com" target="_blank" rel="noopener">Auf Gamertransfer bewerben</a>
+          </div>
+
+          <div class="stats" aria-hidden="false">
+            <div class="stat"><strong>14</strong> online</div>
+            <div class="stat"><strong>101</strong> Mitglieder</div>
+            <div class="stat">Gegründet im Juli 2023</div>
+            <div class="stat">DeSBL Clan · HC S&amp;Z</div>
+            <div class="stat">Plattform: PC</div>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Kurzinfo">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div>
+              <div class="muted" style="font-size:0.85rem">Aktuelle Aktivitäten</div>
+              <div style="font-weight:700;margin-top:8px">Teamtraining · Liga-Matches · Community-Events</div>
+            </div>
+            <div style="text-align:right;color:var(--muted);font-size:0.85rem">Erfahre mehr ↓</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 id="about-title">Über die Soul Reapers</h2>
+        <p class="lead-text">Wir sind ein deutscher Multigaming-Clan mit Fokus auf Teamplay, einer freundlichen Community und strukturiertem Zusammenspiel. Aktiv in Casual- und Liga-Spielen, u.a. in der Deutschen eSport Bundesliga (DeSBL).</p>
+
+        <div class="about-list">
+          <div class="about-item">
+            <div class="dot" aria-hidden="true">S</div>
+            <div>
+              <div style="font-weight:700">Strukturierte Organisation</div>
+              <div class="muted">Klare Rollen, Trainingspläne und Ansprechpartner.</div>
+            </div>
+          </div>
+
+          <div class="about-item">
+            <div class="dot" aria-hidden="true">A</div>
+            <div>
+              <div style="font-weight:700">Aktive Community</div>
+              <div class="muted">Regelmäßige Events, Voice-Sessions und gemeinsame Abende.</div>
+            </div>
+          </div>
+
+          <div class="about-item">
+            <div class="dot" aria-hidden="true">R</div>
+            <div>
+              <div style="font-weight:700">Faire Regeln &amp; Respekt</div>
+              <div class="muted">Ein respektvolles Miteinander ist unser Kernprinzip.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Games -->
+    <section id="games" aria-labelledby="games-title">
+      <div class="container">
+        <h2 id="games-title">Welche Games wir spielen</h2>
+        <div class="games-grid">
+          <article class="game-card" role="article" aria-label="Black Ops 6">
+            <div class="game-icon">BO6</div>
+            <div class="game-meta">
+              <div style="font-weight:700">Black Ops 6</div>
+              <small class="muted">Spielstil: Competitive &amp; Teamplay</small>
+            </div>
+          </article>
+
+          <article class="game-card" role="article" aria-label="League of Legends">
+            <div class="game-icon">LoL</div>
+            <div class="game-meta">
+              <div style="font-weight:700">League of Legends</div>
+              <small class="muted">Spielstil: Ranked &amp; Clash</small>
+            </div>
+          </article>
+
+          <article class="game-card" role="article" aria-label="Garry's Mod">
+            <div class="game-icon">GMod</div>
+            <div class="game-meta">
+              <div style="font-weight:700">Garry's Mod</div>
+              <small class="muted">Spielstil: Fun &amp; Community-Server</small>
+            </div>
+          </article>
+
+          <article class="game-card" role="article" aria-label="Arma 3">
+            <div class="game-icon">A3</div>
+            <div class="game-meta">
+              <div style="font-weight:700">Arma 3</div>
+              <small class="muted">Spielstil: Realistic Coop &amp; Missions</small>
+            </div>
+          </article>
+
+          <article class="game-card" role="article" aria-label="Arma Reforger">
+            <div class="game-icon">AR</div>
+            <div class="game-meta">
+              <div style="font-weight:700">Arma Reforger</div>
+              <small class="muted">Spielstil: Community &amp; Modding</small>
+            </div>
+          </article>
+
+          <article class="game-card" role="article" aria-label="The Division 2">
+            <div class="game-icon">TD2</div>
+            <div class="game-meta">
+              <div style="font-weight:700">Tom Clancy's The Division 2</div>
+              <small class="muted">Spielstil: PvE &amp; Co-op</small>
+            </div>
+          </article>
+
+          <article class="game-card" role="article" aria-label="Weitere Spiele">
+            <div class="game-icon">+1</div>
+            <div class="game-meta">
+              <div style="font-weight:700">Weitere Titel</div>
+              <small class="muted">...und viele mehr — frag uns im Discord!</small>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Teams & Ligen -->
+    <section id="teams" aria-labelledby="teams-title">
+      <div class="container">
+        <h2 id="teams-title">Teams &amp; Ligen</h2>
+        <div class="card-grid">
+          <div class="card">
+            <div style="font-weight:700">Deutsche eSport Bundesliga (DeSBL)</div>
+            <p class="muted">Soul Reapers ist aktiv in der DeSBL und tritt regelmäßig in Ligaspielen an. Wir fördern strukturiertes Training und competitive Einsätze.</p>
+            <a href="https://desbl.de/index.php?public/&site=showteam&tid=25939" target="_blank" rel="noopener">Deutsche eSport Bundesliga – Soul Reapers Teamprofil</a>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:700">HC S&amp;Z</div>
+            <p class="muted">Hardcore Suchen &amp; Zerstören Team, das regelmäßig in der DeSBL antritt und an Turnieren teilnimmt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community & Socials -->
+    <section id="community" aria-labelledby="community-title">
+      <div class="container">
+        <h2 id="community-title">Community &amp; Socials</h2>
+        <div class="card-grid">
+          <div class="card">
+            <div style="font-weight:700">Discord</div>
+            <p class="muted">Unsere zentrale Anlaufstelle für Voice, Organisation und Community-Events.</p>
+            <a class="btn btn-primary" href="https://discord.gg/pcqA6JaeWK" target="_blank" rel="noopener">Discord beitreten</a>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:700">Instagram</div>
+            <p class="muted">Highlights, Clips und Einblicke hinter die Kulissen.</p>
+            <a href="https://www.instagram.com/_soul_reapers_2023/" target="_blank" rel="noopener">Instagram-Profil ansehen</a>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:700">Deutsche eSport Bundesliga</div>
+            <p class="muted">Unser offizielles Teamprofil in der DeSBL.</p>
+            <a href="https://desbl.de/index.php?public/&site=showteam&tid=25939" target="_blank" rel="noopener">DeSBL-Profil öffnen</a>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:700">Gamertransfer</div>
+            <p class="muted">Hier findest du unser Recruiting-Profil und offene Positionen.</p>
+            <a href="https://gamertransfer.com" target="_blank" rel="noopener">Gamertransfer besuchen</a>
+            <div style="margin-top:10px">
+              <a href="https://gamertransfer.com" target="_blank" rel="noopener"><img src="https://gamertransfer.com/banner/v5_373.png" alt="spielersuche" style="max-width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.03)" /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join / Kontakt -->
+    <section id="join" aria-labelledby="join-title">
+      <div class="container">
+        <h2 id="join-title">Jetzt Soul Reaper werden</h2>
+        <p class="muted">Mindestalter: 18+. Discord ist Pflicht für gemeinsame Runden. Wir erwarten freundliches Verhalten und kein toxisches Spiel.</p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn btn-primary" href="https://discord.gg/pcqA6JaeWK" target="_blank" rel="noopener">Discord beitreten</a>
+            <a class="btn btn-outline" href="https://gamertransfer.com" target="_blank" rel="noopener">Auf Gamertransfer bewerben</a>
+          </div>
+
+          <div class="card" style="max-width:720px">
+            <div style="font-weight:700;margin-bottom:8px">Schnellbewerbung</div>
+            <form id="join-form" onsubmit="return handleForm(event)">
+              <label class="visually-hidden" for="name">Name</label>
+              <input id="name" type="text" placeholder="Name (z.B. MaxMustermann)" required />
+
+              <label class="visually-hidden" for="discord">Discord-Tag</label>
+              <input id="discord" type="text" placeholder="Discord-Tag (z.B. Max#1234)" required />
+
+              <label class="visually-hidden" for="game">Spiel</label>
+              <input id="game" type="text" placeholder="Primäres Spiel (z.B. Black Ops 6)" />
+
+              <label class="visually-hidden" for="message">Nachricht</label>
+              <textarea id="message" rows="3" placeholder="Kurze Nachricht (optional)"></textarea>
+
+              <div style="display:flex;gap:8px;align-items:center">
+                <button class="btn btn-primary" type="submit">Bewerbung absenden</button>
+                <div class="muted" style="font-size:0.85rem">Demo: Formular wird nur lokal geloggt.</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+        <div class="muted">© Soul Reapers <span id="year"></span></div>
+        <div class="footer-links">
+          <a href="#">Impressum</a>
+          <a href="#">Datenschutz</a>
+          <a href="https://discord.gg/pcqA6JaeWK" target="_blank" rel="noopener">Discord</a>
+          <a href="https://www.instagram.com/_soul_reapers_2023/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://desbl.de/index.php?public/&site=showteam&tid=25939" target="_blank" rel="noopener">DeSBL</a>
+        </div>
+      </div>
+      <div class="muted" style="font-size:0.85rem">Made with passion · Friendly Community · PC</div>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Demo handler for the join form — accessibility-friendly
+    function handleForm(e){
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        discord: document.getElementById('discord').value.trim(),
+        game: document.getElementById('game').value.trim(),
+        message: document.getElementById('message').value.trim()
+      };
+      console.log('Join form submission (demo):', data);
+      alert('Danke! Deine Bewerbung wurde (demo) gesendet. Wir melden uns im Discord.');
+      e.target.reset();
+      return false;
+    }
+
+    // Optional: Enhance anchor clicks for internal smooth scroll + focus management
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const href = this.getAttribute('href');
+        if(href === '#' || href === '') return;
+        const target = document.querySelector(href);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+          // Move focus for accessibility
+          target.setAttribute('tabindex','-1');
+          target.focus({preventScroll:true});
+          window.setTimeout(()=>target.removeAttribute('tabindex'),1000);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
