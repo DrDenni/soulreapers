@@ -1,0 +1,35 @@
+name: Update Discord stats
+
+on:
+  schedule:
+    # every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Fetch Discord invite counts
+        env:
+          INVITE: pcqA6JaeWK
+        run: |
+          node -e "const https=require('https'),fs=require('fs');const url=`https://discord.com/api/v10/invites/${process.env.INVITE}?with_counts=true`;https.get(url,res=>{let d='';res.on('data',c=>d+=c);res.on('end',()=>{try{const j=JSON.parse(d);const out={total:j.approximate_member_count||0,online:j.approximate_presence_count||0,fetched_at:new Date().toISOString()};fs.mkdirSync('data',{recursive:true});fs.writeFileSync('data/discord-stats.json',JSON.stringify(out, null, 2));console.log('WROTE',JSON.stringify(out));}catch(e){console.error('PARSE_ERR',e);process.exit(1)}})} )"
+
+      - name: Commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/discord-stats.json
+          git commit -m "Update discord stats" || echo "no changes to commit"
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" HEAD:main
