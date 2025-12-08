@@ -18,11 +18,54 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Fetch Discord invite counts
+      - name: Fetch Discord invite counts (only write on change)
         env:
           INVITE: pcqA6JaeWK
         run: |
-          node -e "const https=require('https'),fs=require('fs');const url=`https://discord.com/api/v10/invites/${process.env.INVITE}?with_counts=true`;https.get(url,res=>{let d='';res.on('data',c=>d+=c);res.on('end',()=>{try{const j=JSON.parse(d);const out={total:j.approximate_member_count||0,online:j.approximate_presence_count||0,fetched_at:new Date().toISOString()};fs.mkdirSync('data',{recursive:true});fs.writeFileSync('data/discord-stats.json',JSON.stringify(out, null, 2));console.log('WROTE',JSON.stringify(out));}catch(e){console.error('PARSE_ERR',e);process.exit(1)}})} )"
+          node <<'NODE'
+          const https = require('https');
+          const fs = require('fs');
+          const path = 'data/discord-stats.json';
+          const url = `https://discord.com/api/v10/invites/${process.env.INVITE}?with_counts=true`;
+
+          function fetchJson(u){
+            return new Promise((resolve, reject)=>{
+              https.get(u, res=>{
+                let d='';
+                res.on('data', c=> d+=c);
+                res.on('end', ()=>{
+                  try{ resolve(JSON.parse(d)); }catch(e){ reject(e); }
+                });
+              }).on('error', reject);
+            });
+          }
+
+          (async ()=>{
+            try{
+              const j = await fetchJson(url);
+              const out = { total: j.approximate_member_count || 0, online: j.approximate_presence_count || 0, fetched_at: new Date().toISOString() };
+
+              let existing = null;
+              if(fs.existsSync(path)){
+                try{ existing = JSON.parse(fs.readFileSync(path,'utf8')); }catch(e){ existing = null; }
+              }
+
+              const changed = !existing || existing.total !== out.total || existing.online !== out.online;
+              if(changed){
+                fs.mkdirSync('data',{recursive:true});
+                fs.writeFileSync(path, JSON.stringify(out, null, 2));
+                console.log('Discord stats changed — wrote', JSON.stringify(out));
+                process.exit(0);
+              }else{
+                console.log('No change in Discord stats (total/online identical) — skipping write');
+                process.exit(0);
+              }
+            }catch(e){
+              console.error('Failed to fetch or write discord stats', e);
+              process.exit(1);
+            }
+          })();
+          NODE
 
       - name: Commit and push
         env:
